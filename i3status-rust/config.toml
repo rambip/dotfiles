@@ -32,6 +32,7 @@ block = "sound"
 [[block]]
 block = "battery"
 driver = "upower"
+device = "BAT1" # ls /sys/class/power_supply/ | grep BAT
 interval = 15
 format = " {percentage}"
 
