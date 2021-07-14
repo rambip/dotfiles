@@ -1,0 +1,38 @@
+#bar = true
+
+palette = true
+
+color = "Green"
+
+custom_ascii = "/home/rambi/.config/macchina/arco"
+
+
+no_title = true
+random_sep_color = true
+
+#   - Host
+#   - Machine 
+#   - Kernel
+#   - Distribution
+#   - OperatingSystem
+#   - DesktopEnvironment
+#   - WindowManager
+#   - Packages
+#   - LocalIP
+#   - Terminal
+#   - Shell
+#   - Uptime
+#   - Processor
+#   - ProcessorUsage
+#   - Memory
+#   - Battery
+
+show_only = [
+    "Distribution",
+    "Packages",
+    "Terminal",
+    "LocalIP",
+    "Uptime",
+    "ProcessorUsage",
+    "Battery",
+    ]

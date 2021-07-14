@@ -1,0 +1,55 @@
+theme = "native"
+
+[icons]
+name = "awesome"
+[icons.overrides]
+bat = "?"
+bat_charging = "⚡"
+bat_full = "🔋👍"
+bat_discharging = "🔋"
+time = ""
+volume_empty = "🔈"
+volume_full = "🔊"
+volume_half = "🔉"
+volume_muted = "🔇"
+net_wired =  ""
+net_wireless = "📡"
+cpu = "🔥"
+
+
+
+[[block]]
+block = "keyboard_layout"
+driver = "kbddbus"
+
+[[block]]
+block = "net"
+format = "{ssid}"
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "battery"
+driver = "upower"
+interval = 15
+format = " {percentage}"
+
+[[block]]
+block = "cpu"
+interval = 1
+format = "{utilization}"
+
+[[block]]
+block = "load"
+interval = 1
+format = "{1m}"
+
+[[block]]
+block = "time"
+format = "📆 %d/%m"
+
+[[block]]
+block = "time"
+format = "⌛ %R"
+
