@@ -9,11 +9,12 @@ let custom_layout = pkgs.stdenv.mkDerivation {
   buildPhase = ''
   mkdir symbols
   cp beprog symbols/
-  xkbcomp config.xkb -I./ -o result.xkm
+  xkbcomp config.xkb -I./ -xkb -o result.xkb
   '';
   installPhase = ''
   mkdir $out
-  mv result.xkm $out/layout.xkm
+  sed -i 's/pc_beprog_fr_2/pc+beprog+fr:2/' result.xkb
+  mv result.xkb $out/layout.xkb
   '';
 };
 
@@ -38,12 +39,14 @@ in
       rust-analyzer
       rustup
       wabt
+    ];
+    desktop_tools = [
       vimPlugins.Vundle-vim
       vim
       i3status-rust
-    ];
-    desktop_tools = [
       kbdd
+      dunst
+      # TODO: picom ?
       #python38Packages.Wand
     ];
   in dev_tools ++ desktop_tools;
@@ -68,15 +71,17 @@ in
   };
 
 xdg.configFile = {
-    "macchina"        .source          = ./macchina;
-    "kitty/kitty.conf".source          = ./kitty/kitty.conf;
+    "macchina"                 .source = ./macchina;
+    "kitty/kitty.conf"         .source = ./kitty/kitty.conf;
     "i3status-rust/config.toml".source = ./i3status-rust/config.toml;
-    "i3/".source                       = ./i3;
+    "i3/"                      .source = ./i3;
+    "picom/picom.conf"         .source = ./picom/picom.conf;
     };
 
     home.file = { 
       ".vimrc"  .source = ./vim/.vimrc;
       ".xinitrc".source = ./xorg/.xinitrc;
       ".xkb".source     = custom_layout;
+      ".bashrc".source =  ./shell/.bashrc;
     };
   }
