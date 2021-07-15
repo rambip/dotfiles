@@ -51,6 +51,9 @@
       ".config/kitty/kitty.conf".source          = ./kitty/kitty.conf;
       ".config/i3status-rust/config.toml".source = ./i3status-rust/config.toml;
       ".config/i3/".source                       = ./i3;
+      # FIXME: faire ça depuis nix ?
+      ".config/xkb/symbols/beprog".source        = ./xorg/beprog;
+      ".config/xkb/config.xkb".source            = ./xorg/config.xkb;
       #".config/nvim/init.lua"   .source = ./vim/init.lua;
       #".i3/config"               = ./
     };

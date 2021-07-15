@@ -1,0 +1,67 @@
+default	partial	alphanumeric_keys modifier_keys
+xkb_symbols	"basic"	{
+  include "level3(caps_switch)"
+  include "latin"
+  name[Group1]="Beprog";
+  // key <CAPS> {[Escape]}; 
+
+  key	<TLDE>	{	[	Caps_Lock]};
+
+  key	<AE01>	{	[	1,	exclam	]	};
+  key	<AE02>	{	[	2,	at	, 	dead_diaeresis	]	};
+  key	<AE03>	{	[	3,	numbersign,	dead_acute	]};
+  key	<AE04>	{	[	4,	dollar,		dead_tilde]	};
+  key	<AE05>	{	[	5,	percent	]	};
+  key	<AE06>	{	[	6,	asciicircum	]};
+  key	<AE07>	{	[	7,	ampersand	]};
+  key	<AE08>	{	[	8,	asterisk	]};
+  key	<AE09>	{	[	9,	parenleft	]};
+  key	<AE10>	{	[	0,	parenright, Greek_beta	]};
+  key	<AE11>	{	[	minus,	underscore	]};
+  key	<AE12>	{	[	equal,	plus	]	};
+
+
+  key	<AD01>	{	[	b,	B	]	};
+  key	<AD02>	{	[	eacute,	Eacute]	};
+  key	<AD03>	{	[	p,	P, bracketleft	]	};
+  key	<AD04>	{	[	o,	O, bracketright	]	};
+  key	<AD05>	{	[	w,	W	]	};
+  key	<AD06>	{	[	dead_grave,	dead_circumflex, grave]	};
+  key	<AD07>	{	[	v,	V	]	};	
+  key	<AD08>	{	[	d,	D, Home	]	};
+  key	<AD09>	{	[	l,	L, End	]	};
+  key	<AD10>	{	[	j,	J	]	};
+  key	<AD11>	{	[	slash,	backslash	]	};
+  key	<AD12>	{	[	equal, asciitilde	]	};
+
+  key	<AC01>	{	[	a,	A]	};
+  key	<AC02>	{	[	u,	U]	};
+  key	<AC03>	{	[	i,	I, braceleft]	};
+  key	<AC04>	{	[	e,	E, braceright	]	};
+  key	<AC05>	{	[	comma, semicolon]	};
+  key	<AC06>	{	[	c,	C, ccedilla 	]	};
+  key	<AC07>	{	[	t,	T, Left	]	};
+  key	<AC08>	{	[	s,	S, Down	]	};
+  key	<AC09>	{	[	r,	R, Up	]	};
+  key	<AC10>	{	[	n,	N, Right]	};
+  key	<AC11>	{	[	m,	M, minus]	};
+  key   <BKSL>	{ [question, bar] }; // * µ ` ̄
+
+  key	<AB01>	{	[	z,	Z	]	};
+  key	<AB02>	{	[	y,	Y, parenleft  ]	};
+  key	<AB03>	{	[	x,	X, parenright]	};
+  key	<AB04>	{	[	period,	colon	]	};
+  key	<AB05>	{	[	k,	K	]	};
+  key	<AB06>	{	[	apostrophe,	quotedbl]};
+  key	<AB07>	{	[	q,	Q	]	};
+  key	<AB08>	{	[	g,	G	]	};
+  key	<AB09>	{	[	h,	H	]	};
+  key	<AB10>	{	[	f,	F	]	};
+  // key <AE12> { [ less, greater ] };
+  // key <TLDE> { [ less, greater ] };
+  // key <LSGT> { [ less, greater ] };
+
+  key <SPCE> { [space, underscore, Escape] };
+
+};
+
