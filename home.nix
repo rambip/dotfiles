@@ -1,5 +1,23 @@
 {config, pkgs, ...}:
 
+let custom_layout = pkgs.stdenv.mkDerivation {
+  # my custom layout: create a binary file layout.xkm
+  # from a layout (./xorg/beprog) and a description file (./xorg/config.xkb)
+  name = "beprog";
+  src = ./xorg;
+  buildInputs = [pkgs.xorg.xkbcomp];
+  buildPhase = ''
+  mkdir symbols
+  cp beprog symbols/
+  xkbcomp config.xkb -I./ -o result.xkm
+  '';
+  installPhase = ''
+  mkdir $out
+  mv result.xkm $out/layout.xkm
+  '';
+};
+
+in
 {
   home.username = "rambi";
   home.homeDirectory = "/home/rambi";
@@ -13,55 +31,52 @@
   # dev packages
   home.packages = with pkgs; let
     dev_tools = [
-    tldr
-    macchina
-    emscripten
-    llvmPackages_12.llvm
-    rust-analyzer
-    rustup
-    wabt
-  ];
+      tldr
+      macchina
+      emscripten
+      llvmPackages_12.llvm
+      rust-analyzer
+      rustup
+      wabt
+      vimPlugins.Vundle-vim
+      vim
+      i3status-rust
+    ];
     desktop_tools = [
       kbdd
       #python38Packages.Wand
     ];
   in dev_tools ++ desktop_tools;
 
-  programs.i3status-rust.enable = true;
+  #programs.vim = {
+  #  enable = true;
+  #  plugins = with pkgs.vimPlugins; [
+  #    lightline-vim
+  #    vim-surround
+  #    vim-repeat
+  #    rust-vim
+  #    vim-nix
+  #    idris2-vim
+  #    elm-vim
+  #  ];
+  #};
 
-  # TODO:
-
-  programs.vim = {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
-      lightline-vim
-      vim-surround
-      vim-repeat
-      rust-vim
-      vim-nix
-      idris2-vim
-      elm-vim
-    ];
+  xdg.userDirs = {
+    download = "\$HOME/Downloads";
+    desktop = "\$HOME";
+    pictures = "\$HOME/Pictures";
   };
 
-  home.file =     
-  let 
-    dot_config_folder = {
-      ".config/macchina"        .source          = ./macchina;
-      ".config/kitty/kitty.conf".source          = ./kitty/kitty.conf;
-      ".config/i3status-rust/config.toml".source = ./i3status-rust/config.toml;
-      ".config/i3/".source                       = ./i3;
-      # FIXME: faire ça depuis nix ?
-      ".config/xkb/symbols/beprog".source        = ./xorg/beprog;
-      ".config/xkb/config.xkb".source            = ./xorg/config.xkb;
-      #".config/nvim/init.lua"   .source = ./vim/init.lua;
-      #".i3/config"               = ./
+xdg.configFile = {
+    "macchina"        .source          = ./macchina;
+    "kitty/kitty.conf".source          = ./kitty/kitty.conf;
+    "i3status-rust/config.toml".source = ./i3status-rust/config.toml;
+    "i3/".source                       = ./i3;
     };
 
-    dot_files = {
+    home.file = { 
       ".vimrc"  .source = ./vim/.vimrc;
       ".xinitrc".source = ./xorg/.xinitrc;
+      ".xkb".source     = custom_layout;
     };
-
-  in dot_config_folder // dot_files;
-}
+  }

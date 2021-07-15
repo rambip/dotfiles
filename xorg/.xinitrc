@@ -1,2 +1,2 @@
-cat ~/.config/xkb/config.xkb | xkbcomp -I$HOME/.config/xkb - $DISPLAY
+xkbcomp ~/.xkb/layout.xkm $DISPLAY
 exec i3 
