@@ -24,15 +24,14 @@ with Image(filename=choice) as img:
     r, g, b = [min(150, col) for col in (pix.red_int8, pix.green_int8, pix.blue_int8)]
     print(r, g, b)
 
-p = Popen('xrdb', stdin=PIPE)
-
 report = \
 f"""
 *bg: #{r:02x}{g:02x}{b:02x}
 *bg_opposite: #{256-r:02x}{256-g:02x}{256-b:02x}
 """
 
-p.communicate(report.encode())
+Popen('xrdb', stdin=PIPE).communicate(report.encode())
+call(['i3', 'reload'])
 
 with open('/tmp/current_wallpaper', 'w') as f:
     f.write(choice)

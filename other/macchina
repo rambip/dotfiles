@@ -1,11 +1,5 @@
-#bar = true
-
 palette = true
-
 color = "Green"
-
-custom_ascii = "/home/rambi/.config/macchina/arco"
-
 
 no_title = true
 random_sep_color = true

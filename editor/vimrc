@@ -1,0 +1,61 @@
+set relativenumber
+set nu rnu
+set smartindent
+set expandtab
+set shiftwidth=4
+syntax on
+set splitright
+set ignorecase
+
+" core mappings
+map é <c-w>
+map É <c-v>
+
+" -> like D
+map Y y$ 
+
+" c-s to save
+map <c-s> :w<cr>
+map s j
+nmap S <Nop>
+nnoremap <leader>S :setlocal spell spelllang=
+nmap <tab> gt
+
+let mapleader=" "
+
+map <leader>c <Cmd>wa\|make<CR>
+map <leader>t <Cmd>wa\|split\|:te "make"<CR>
+
+" remap c-c for yank and hide highlight
+vmap <c-c> "+y
+nmap <silent> <c-c> :noh<CR>
+
+
+"        _             _           
+"  _ __ | |_   _  __ _(_)_ __  ___ 
+" | '_ \| | | | |/ _` | | '_ \/ __|
+" | |_) | | |_| | (_| | | | | \__ \
+" | .__/|_|\__,_|\__, |_|_| |_|___/
+" |_|            |___/             
+
+set nocompatible              
+filetype off                 
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'itchyny/lightline.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'mhinz/vim-startify'
+
+Plugin 'rust-lang/rust.vim'
+Plugin 'LnL7/vim-nix'
+
+call vundle#end()           
+filetype plugin indent on    
+
+
+"  for vim-surround ("template" or "type")
+let b:surround_84 = "\1Type: \1<\r>"

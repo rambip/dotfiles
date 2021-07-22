@@ -16,11 +16,14 @@ exec --no-startup-id picom
 exec --no-startup-id dunst
 
 # wallpaper (you need python, feh and wand)
-exec --no-startup-id ~/.config/i3/python_scripts/random_wallpaper && i3 reload
+exec --no-startup-id ~/.config/i3/scripts/random_wallpaper
 
 
 # wallpaper key
-bindsym $mod+w exec --no-startup-id ~/.config/i3/python_scripts/random_wallpaper && i3 reload
+bindsym $mod+w exec --no-startup-id ~/.config/i3/scripts/random_wallpaper
+
+# config directory key
+bindsym $mod+b exec --no-startup-id "cd ~/conf && kitty nvim -c 'Telescope find_files'"
 
 
 # sound
@@ -48,6 +51,9 @@ bindsym $mod+d exec --no-startup-id dmenu_run
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
+bindsym $mod+o exec qutebrowser
+# FIXME: rofi
+bindsym $mod+space exec ~/.bin/quick_launcher
 
  
 # change focus
@@ -144,24 +150,24 @@ bindsym $mod+Shift+c restart
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+# These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym t resize shrink width 10 px or 10 ppt
+# Pressing left will shrink the window’s width.
+# Pressing right will grow the window’s width.
+# Pressing up will shrink the window’s height.
+# Pressing down will grow the window’s height.
+    bindsym t resize shrink width 10 px or 10 ppt
         bindsym s resize grow height 10 px or 10 ppt
         bindsym r resize shrink height 10 px or 10 ppt
         bindsym n resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
+# same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
+# back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+l mode "default"
@@ -184,15 +190,7 @@ bindsym Mod4+equal resize grow height 20 px
 font pango:monospace 12.5
 
 
-#             _               _               
-#  __ _  _ __| |_ ___ _ __   | |_____ _  _ ___
-# / _| || (_-<  _/ _ \ '  \  | / / -_) || (_-<
-# \__|\_,_/__/\__\___/_|_|_| |_\_\___|\_, /__/
-#                                     |__/    
- 
-bindsym $mod+o exec qutebrowser
-bindsym $mod+b exec ~/.bin/config_launcher
-bindsym $mod+space exec ~/.bin/quick_launcher
+
 
 # Start i3rar to display a workspace bar (plus the system information i3status
 # finds out, if available)
