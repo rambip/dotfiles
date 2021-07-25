@@ -30,6 +30,10 @@ map <leader>t <Cmd>wa\|split\|:te "make"<CR>
 vmap <c-c> "+y
 nmap <silent> <c-c> :noh<CR>
 
+map <c-n> :cn<cr>
+map <c-t> :cp<cr>
+map <c-d> :bd<cr>
+
 
 "        _             _           
 "  _ __ | |_   _  __ _(_)_ __  ___ 
