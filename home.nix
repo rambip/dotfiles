@@ -1,35 +1,6 @@
 {config, pkgs, ...}:
 let 
   config_dir = "~/conf";
-  custom_xinitrc = pkgs.stdenv.mkDerivation {
-    # my custom layout: create a binary file layout.xkm
-      # from a layout (./xorg/beprog) and a description file (./xorg/config.xkb)
-      name = "my_xinit_with_beprog";
-      src = ./desktop;
-      buildInputs = [pkgs.xorg.xkbcomp];
-      buildPhase = ''
-        mkdir symbols
-        cp beprog symbols/
-        xkbcomp -w 0 -I./ -xkm -o layout.xkm - << EOF
-        xkb_keymap {
-          xkb_keycodes  { include "evdev+aliases(qwerty)" };
-          xkb_types     { include "complete"  };
-          xkb_compat    { include "complete"  };
-          xkb_symbols   { include "pc+beprog+fr:2+terminate(ctrl_alt_bksp)"  };
-          xkb_geometry  { include "pc(pc104)" };
-        };
-        EOF
-
-        echo "setxkbmap typo,fr" > xinitrc
-        echo "xkbcomp -w 0 $out/layout.xkm \$DISPLAY" >> xinitrc
-        echo "exec i3" >> xinitrc
-      '';
-      installPhase = ''
-        mkdir $out
-        mv xinitrc $out
-        mv layout.xkm $out
-      '';
-    };
 
     tmux_repl_conf = builtins.path {path=./editor/tmux-repl.conf; name="tmux-repl";};
 
@@ -60,10 +31,11 @@ in {
       rust-analyzer
       rustup
       crate2nix
-      yarn2nix
       yarn
       wabt
       any-nix-shell
+      (import ./tools/idris2-pkgs).default
+      (import ./tools/idris2-pkgs).packages.x86_64-linux.lsp
     ];
     desktop_tools = [
       i3status-rust
@@ -82,6 +54,7 @@ in {
     set fish_greeting
     fish_vi_key_bindings
     alias v=nvim
+    alias c=clear
     macchina
     '';
     promptInit = ''
@@ -108,7 +81,6 @@ in {
 
     "kitty/kitty.conf"         .source = ./desktop/kitty.conf;
     "i3status-rust/config.toml".source = ./desktop/i3status-rust;
-    # FIXME: files to directory ?
     "i3/config"                .source = ./desktop/i3;
     "i3/scripts"               .source = ./desktop/scripts;
     "picom/picom.conf"         .source = ./desktop/picom.conf;
@@ -117,6 +89,5 @@ in {
 
   home.file = { 
     ".vimrc"  .source = vimrc;
-    ".xinitrc".source = custom_xinitrc + "/xinitrc";
   };
 }

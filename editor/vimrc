@@ -9,7 +9,7 @@ set ignorecase
 
 " core mappings
 map é <c-w>
-map É <c-v>
+map è <c-v>
 
 " -> like D
 map Y y$ 
@@ -51,11 +51,13 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'itchyny/lightline.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-repeat'
 Plugin 'mhinz/vim-startify'
 
 Plugin 'rust-lang/rust.vim'
 Plugin 'LnL7/vim-nix'
+Plugin 'tpope/vim-commentary'
 
 call vundle#end()           
 filetype plugin indent on    
