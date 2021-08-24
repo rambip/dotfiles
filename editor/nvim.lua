@@ -126,60 +126,77 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 end
 
+local lspconfig = require('lspconfig')
 local configs = require('lspconfig/configs')
-    configs.idris2_lsp = {
-        default_config = {
-            cmd = {'idris2-lsp'}; -- if not available in PATH, provide the absolute path
-            filetypes = {'idris2'};
-            on_new_config = function(new_config, new_root_dir)
-                new_config.cmd = default_config.cmd
-                new_config.capabilities['workspace']['semanticTokens'] = {refreshSupport = true}
-            end;
-            root_dir = function(fname)
-                local scandir = require('plenary.scandir')
-                local find_ipkg_ancestor = function(fname)
-                    return nvim_lsp.util.search_ancestors(fname, function(path)
-                        local res = scandir.scan_dir(path, {depth=1; search_pattern='.+%.ipkg'})
-                        if not vim.tbl_isempty(res) then
-                            return path
-                        end
-                    end)
-                end
-                return find_ipkg_ancestor(fname) or nvim_lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
-            end;
-            settings = {};
-        };
-    }
-
--- Flag to enable semantic highlightning on start, if false you have to issue a first command manually
-local autostart_semantic_highlightning = true
-nvim_lsp.idris2_lsp.setup {
-    on_init = custom_init,
-    on_attach = on_attach,
-    autostart = true,
-    handlers = {
-        ['textDocument/semanticTokens/full'] = function(err, method, result, client_id, bufnr, config)
-            -- temporary handler until native support lands
-            local client = vim.lsp.get_client_by_id(client_id)
-            local legend = client.server_capabilities.semanticTokensProvider.legend
-            local token_types = legend.tokenTypes
-            local data = result.data
-
-            local ns = vim.api.nvim_create_namespace('nvim-lsp-semantic')
-            vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-            local tokens = {}
-            local prev_line, prev_start = nil, 0
-            for i = 1, #data, 5 do
-                local delta_line = data[i]
-                prev_line = prev_line and prev_line + delta_line or delta_line
-                local delta_start = data[i + 1]
-                prev_start = delta_line == 0 and prev_start + delta_start or delta_start
-                local token_type = token_types[data[i + 3] + 1]
-                vim.api.nvim_buf_add_highlight(bufnr, ns, 'LspSemantic_' .. token_type, prev_line, prev_start, prev_start + data[i + 2])
+if not lspconfig.idris2_lsp then
+  configs.idris2_lsp = {
+    default_config = {
+      cmd = {'idris2-lsp'}; -- if not available in PATH, provide the absolute path
+      filetypes = {'idris2'};
+      on_new_config = function(new_config, new_root_dir)
+        new_config.cmd = {'idris2-lsp'}
+        new_config.capabilities['workspace']['semanticTokens'] = {refreshSupport = true}
+      end;
+      root_dir = function(fname)
+        local scandir = require('plenary.scandir')
+        local find_ipkg_ancestor = function(fname)
+          return lspconfig.util.search_ancestors(fname, function(path)
+            local res = scandir.scan_dir(path, {depth=1; search_pattern='.+%.ipkg'})
+            if not vim.tbl_isempty(res) then
+              return path
             end
+          end)
         end
-    },
+        return find_ipkg_ancestor(fname) or lspconfig.util.find_git_ancestor(fname) or vim.loop.os_homedir()
+      end;
+      settings = {};
+    };
+  }
+end
+-- Flag to enable semantic highlightning on start, if false you have to issue a first command manually
+local autostart_semantic_highlightning = false
+lspconfig.idris2_lsp.setup {
+  on_init = custom_init,
+  on_attach = on_attach,
+  --custom_attach(client) -- remove this line if you don't have a customized attach function
+  autostart = false,
+  handlers = {
+    ['workspace/semanticTokens/refresh'] = function(err, method, params, client_id, bufnr, config)
+      if autostart_semantic_highlightning then
+        vim.lsp.buf_request(0, 'textDocument/semanticTokens/full',
+          { textDocument = vim.lsp.util.make_text_document_params() }, nil)
+      end
+      return vim.NIL
+    end,
+    ['textDocument/semanticTokens/full'] = function(err, method, result, client_id, bufnr, config)
+      -- temporary handler until native support lands
+      local client = vim.lsp.get_client_by_id(client_id)
+      local legend = client.server_capabilities.semanticTokensProvider.legend
+      local token_types = legend.tokenTypes
+      local data = result.data
+
+      local ns = vim.api.nvim_create_namespace('nvim-lsp-semantic')
+      vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+      local tokens = {}
+      local prev_line, prev_start = nil, 0
+      for i = 1, #data, 5 do
+        local delta_line = data[i]
+        prev_line = prev_line and prev_line + delta_line or delta_line
+        local delta_start = data[i + 1]
+        prev_start = delta_line == 0 and prev_start + delta_start or delta_start
+        local token_type = token_types[data[i + 3] + 1]
+        vim.api.nvim_buf_add_highlight(bufnr, ns, 'LspSemantic_' .. token_type, prev_line, prev_start, prev_start + data[i + 2])
+      end
+    end
+  },
 }
+
+-- Set here your preferred colors for semantic values
+-- vim.cmd [[highlight link LspSemantic_type Include]]   -- Type constructors
+-- vim.cmd [[highlight link LspSemantic_function Identifier]] -- Functions names
+-- vim.cmd [[highlight link LspSemantic_enumMember Number]]   -- Data constructors
+-- vim.cmd [[highlight LspSemantic_variable guifg=gray]] -- Bound variables
+-- vim.cmd [[highlight link LspSemantic_keyword Structure]]  -- Keywords
 
 for _, lsp in ipairs({"elmls", "rust_analyzer", "tsserver", "idris2_lsp"}) do
     nvim_lsp[lsp].setup{on_attach = on_attach}

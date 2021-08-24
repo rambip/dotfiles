@@ -16,11 +16,11 @@ exec --no-startup-id picom
 exec --no-startup-id dunst
 
 # wallpaper (you need python, feh and wand)
-exec --no-startup-id ~/.config/i3/scripts/random_wallpaper
+exec --no-startup-id random_wallpaper
 
 
 # wallpaper key
-bindsym $mod+w exec --no-startup-id ~/.config/i3/scripts/random_wallpaper
+bindsym $mod+w exec --no-startup-id random_wallpaper
 
 # config directory key
 bindsym $mod+b exec --no-startup-id "cd ~/conf && kitty nvim -c 'Telescope find_files'"
@@ -31,9 +31,6 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute        exec pactl set-sink-volume @DEFAULT_SINK@ toggle
  
-# switch keyboard with kbdd
-bindsym Mod4+space exec --no-startup-id dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.prev_layout
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -53,7 +50,7 @@ bindsym $mod+d exec --no-startup-id dmenu_run
 
 bindsym $mod+o exec qutebrowser
 # FIXME: rofi
-bindsym $mod+space exec ~/.bin/quick_launcher
+bindsym $mod+space exec quick_launcher
 
  
 # change focus

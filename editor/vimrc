@@ -9,16 +9,13 @@ set ignorecase
 
 " core mappings
 map é <c-w>
-map è <c-v>
 
 " -> like D
 map Y y$ 
 
 " c-s to save
 map <c-s> :w<cr>
-map s j
-nmap S <Nop>
-nnoremap <leader>S :setlocal spell spelllang=
+" nnoremap <leader>S :setlocal spell spelllang=
 nmap <tab> gt
 
 let mapleader=" "
@@ -53,11 +50,13 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
+Plugin 'justinmk/vim-sneak'
+
 Plugin 'mhinz/vim-startify'
 
 Plugin 'rust-lang/rust.vim'
 Plugin 'LnL7/vim-nix'
-Plugin 'tpope/vim-commentary'
 
 call vundle#end()           
 filetype plugin indent on    

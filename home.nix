@@ -36,16 +36,18 @@ in {
       any-nix-shell
       (import ./tools/idris2-pkgs).default
       (import ./tools/idris2-pkgs).packages.x86_64-linux.lsp
+      busybox
     ];
     desktop_tools = [
       i3status-rust
-      kbdd
       dunst
       vimPlugins.Vundle-vim
       bat
       # TODO: picom ?
       #python38Packages.Wand
+      (import ./desktop/scripts.nix {inherit pkgs;})
     ];
+
   in dev_tools ++ desktop_tools;
 
   programs.fish = {
@@ -74,6 +76,12 @@ in {
     pictures = "\$HOME/Pictures";
   };
 
+  xsession.windowManager.xmonad = {
+    enable = true;
+    config = ./desktop/xmonad.hs;
+    enableContribAndExtras = true;
+  };
+
   xdg.configFile = {
     "macchina/macchina.toml"   .source = 
     let first_line = "custom_ascii = '${builtins.path {path=./ascii/arco; name="ascii";}}'\n";
@@ -82,7 +90,6 @@ in {
     "kitty/kitty.conf"         .source = ./desktop/kitty.conf;
     "i3status-rust/config.toml".source = ./desktop/i3status-rust;
     "i3/config"                .source = ./desktop/i3;
-    "i3/scripts"               .source = ./desktop/scripts;
     "picom/picom.conf"         .source = ./desktop/picom.conf;
     "nvim/init.lua"            .source = ./editor/nvim.lua;
   };

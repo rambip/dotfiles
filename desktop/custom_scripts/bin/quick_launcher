@@ -1,0 +1,32 @@
+#!/bin/python
+
+from subprocess import Popen, PIPE
+import os
+
+apps = {
+        "discord" : "discord",
+        "evince" : "evince",
+        "neovim" : "gvim",
+        "ranger": "kitty ranger",
+        "raspberrypi ssh": "kitty env TERM=xterm-256color ssh pi@raspi",
+        "turn off your computer": "poweroff",
+        "reboot your computer": "reboot",
+        "shot: screenshot to discord": "shot2discord",
+        "screenshot": "shot",
+        "spotify": "spotify",
+        "vlc": "vlc",
+        "brave browser": "brave",
+        "random wallpaper": "random_wallpaper",
+        "emacs window": "emacsclient -c",
+        "calculator": "kitty calc",
+        "clipboard state": "kitty .bin/get_clipboards",
+        "manage your files": "pcmanfm",
+        "vieb browser": "vieb",
+}
+
+p = Popen(["dmenu", "-l", str(len(apps))], stdin=PIPE, stdout=PIPE)
+
+stdin_msg = '\n'.join(apps.keys()).encode()
+result = p.communicate(input=stdin_msg)[0].decode().split('\n')[0]
+
+Popen(os.path.expanduser(apps[result]).split(' '))
