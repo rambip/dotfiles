@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{Config, pkgs, ...}:
 let 
   config_dir = "~/conf";
 
@@ -27,22 +27,21 @@ in {
     dev_tools = [
       tldr
       macchina
-      llvmPackages_12.llvm
       rust-analyzer
       rustup
       crate2nix
       yarn
       wabt
       any-nix-shell
-      (import ./tools/idris2-pkgs).default
-      (import ./tools/idris2-pkgs).packages.x86_64-linux.lsp
-      busybox
+      (import ./tools/idris2-pkgs).default # idris2 compiler
+      (import ./tools/idris2-pkgs).packages.x86_64-linux.lsp # idris2 lsp
     ];
     desktop_tools = [
-      i3status-rust
       dunst
       vimPlugins.Vundle-vim
       bat
+      pkgs.xmonad-log
+      nextcloud-client
       # TODO: picom ?
       #python38Packages.Wand
       (import ./desktop/scripts.nix {inherit pkgs;})
@@ -52,11 +51,14 @@ in {
 
   programs.fish = {
     enable = true;
+    shellAliases = {
+      v = "nvim";
+      HM = "home-manager";
+      c = "clear";
+    };
     interactiveShellInit = ''
     set fish_greeting
     fish_vi_key_bindings
-    alias v=nvim
-    alias c=clear
     macchina
     '';
     promptInit = ''
@@ -67,8 +69,12 @@ in {
   programs.tmux = {
     enable = true;
     shell = "${pkgs.fish}/bin/fish";
+    clock24 = true;
   };
 
+  programs.rofi = {
+    enable = true;
+  };
 
   xdg.userDirs = {
     download = "\$HOME/Downloads";
@@ -80,6 +86,7 @@ in {
     enable = true;
     config = ./desktop/xmonad.hs;
     enableContribAndExtras = true;
+    extraPackages = hp: [hp.dbus hp.monad-logger];
   };
 
   xdg.configFile = {
@@ -92,6 +99,9 @@ in {
     "i3/config"                .source = ./desktop/i3;
     "picom/picom.conf"         .source = ./desktop/picom.conf;
     "nvim/init.lua"            .source = ./editor/nvim.lua;
+    "Vieb/viebrc"              .source = ./desktop/viebrc;
+    "dunst/dunstrc"            .source = ./desktop/dunstrc;
+    "polybar/config"           .source = ./desktop/polybar;
   };
 
   home.file = { 

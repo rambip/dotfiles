@@ -3,22 +3,6 @@
 # alt key
 set $mod Mod1
 
-# network manager
-exec --no-startup-id nm-applet
-
-# keyboard manager
-exec --no-startup-id kbdd --nodaemon
-
-# composite manager
-exec --no-startup-id picom
-
-# notification manager
-exec --no-startup-id dunst
-
-# wallpaper (you need python, feh and wand)
-exec --no-startup-id random_wallpaper
-
-
 # wallpaper key
 bindsym $mod+w exec --no-startup-id random_wallpaper
 

@@ -18,10 +18,6 @@ cpu = "🔥"
 
 
 
-#[[block]]
-#block = "keyboard_layout"
-#driver = "kbddbus"
-
 [[block]]
 block = "net"
 format = "{ssid}"

@@ -12,6 +12,8 @@ map é <c-w>
 
 " -> like D
 map Y y$ 
+" for vim-exchange
+nmap cX cx$
 
 " c-s to save
 map <c-s> :w<cr>
@@ -29,7 +31,7 @@ nmap <silent> <c-c> :noh<CR>
 
 map <c-n> :cn<cr>
 map <c-t> :cp<cr>
-map <c-d> :bd<cr>
+map <c-d> :w<cr>bd<cr>
 
 
 "        _             _           
