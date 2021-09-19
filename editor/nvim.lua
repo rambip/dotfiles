@@ -1,7 +1,21 @@
 vim.cmd 'source ~/.vimrc'
 
+-- git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ -- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function(use)
+    use 'itchyny/lightline.vim'
+    use 'tpope/vim-surround'
+    use 'tommcdo/vim-exchange'
+    use 'tpope/vim-repeat'
+    use 'tpope/vim-commentary'
+    use 'justinmk/vim-sneak'
+
+    use 'mhinz/vim-startify'
+
+    use 'rust-lang/rust.vim'
+    use 'LnL7/vim-nix'
     use 'wbthomason/packer.nvim'
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/nvim-compe'
@@ -34,6 +48,7 @@ vim.cmd 'colorscheme gruvbox-flat'
 vim.api.nvim_set_keymap("n", "<leader>f", "<Cmd>Telescope file_browser<cr>", {})
 vim.o.switchbuf='usetab'
 
+vim.g.startify_bookmarks = {{c='conf/editor'}}
 
 require('compe').setup({
     enabled = true,

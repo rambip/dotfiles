@@ -212,11 +212,11 @@ key_combos = submap $ M.fromList $ [
                 ,xK_k ---> kill
                 ,xK_n ===> [ xK_x ---> spawn "nextcloud"
                           ]
-                ,xK_r ===> [ xK_b ---> spawn "/usr/bin/reboot"
-                           ,xK_r ---> spawn "/bin/rofi -show run"
+                ,xK_r ===> [ xK_b ---> spawn "reboot"
+                           ,xK_r ---> spawn "rofi -show run"
                            ,xK_w ---> spawn "random_wallpaper && killall polybar && polybar top"
                           ]
-                ,xK_o ===> [ xK_f ---> spawn "/usr/bin/poweroff"
+                ,xK_o ===> [ xK_f ---> spawn "poweroff"
                           ]
                 ,xK_p ===> [ xK_v ---> spawn "pavucontrol"
                            ]
@@ -224,7 +224,7 @@ key_combos = submap $ M.fromList $ [
                           ]
                 ,xK_v ===> [ xK_b ---> spawn "vieb"
                           ]
-                ,xK_w ---> spawn "/bin/rofi -show window"
+                ,xK_w ---> spawn "rofi -show window"
                 ]
 
 reload_home_manager :: X ()
@@ -233,7 +233,7 @@ reload_home_manager = do
       spawn "home-manager switch | xargs -0 notify-send"
 
 rmenu :: MonadIO m => [String] -> m String
-rmenu = menuArgs "/bin/rofi" ["-dmenu"]     
+rmenu = menuArgs "rofi" ["-dmenu"]     
 
 config_selector :: X ()
 config_selector = do

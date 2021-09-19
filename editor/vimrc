@@ -41,28 +41,27 @@ map <c-d> :w<cr>bd<cr>
 " | .__/|_|\__,_|\__, |_|_| |_|___/
 " |_|            |___/             
 
-set nocompatible              
-filetype off                 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" VundleVim/Vundle.vim
+" itchyny/lightline.vim
+" tpope/vim-surround
+" tommcdo/vim-exchange
+" tpope/vim-repeat
+" tpope/vim-commentary
+" justinmk/vim-sneak
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'itchyny/lightline.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-commentary'
-Plugin 'justinmk/vim-sneak'
+" mhinz/vim-startify
 
-Plugin 'mhinz/vim-startify'
-
-Plugin 'rust-lang/rust.vim'
-Plugin 'LnL7/vim-nix'
-
-call vundle#end()           
-filetype plugin indent on    
+" rust-lang/rust.vim
+" LnL7/vim-nix
 
 
 "  for vim-surround ("template" or "type")
 let b:surround_84 = "\1Type: \1<\r>"
+
+
+" send line to localhost:1234
+nmap Z :.w !nc -N localhost 1234<cr><cr>
+
+" send selection to localhost:1234
+vmap Z :'<,'>w !nc -N localhost 1234<cr><cr>
+

@@ -1,4 +1,6 @@
-#!/bin/python
+#! /usr/bin/env nix-shell
+#! nix-shell -i python -p python38 -p python38Packages.emoji
+# (use nix magic to use the right python packages)
 
 import emoji
 import sys

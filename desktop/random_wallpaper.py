@@ -1,5 +1,3 @@
-#!/bin/python3
-
 from os import environ, listdir
 from subprocess import Popen, PIPE, call
 import random
