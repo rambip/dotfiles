@@ -6,7 +6,7 @@ name = "awesome"
 bat = "?"
 bat_charging = "⚡"
 bat_full = "🔋👍"
-bat_discharging = "🔋"
+bat_discharging = "🔋⮮"
 time = ""
 volume_empty = "🔈"
 volume_full = "🔊"
@@ -36,11 +36,6 @@ format = " {percentage}"
 block = "cpu"
 interval = 1
 format = "{utilization}"
-
-[[block]]
-block = "load"
-interval = 1
-format = "{1m}"
 
 [[block]]
 block = "time"

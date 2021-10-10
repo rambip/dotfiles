@@ -45,7 +45,7 @@ vim.g.gruvbox_transparent = true
 vim.cmd 'colorscheme gruvbox-flat'
 
 --vim.api.nvim_set_keymap("n", "S", "<Cmd>JABSOpen<cr>", {})
-vim.api.nvim_set_keymap("n", "<leader>f", "<Cmd>Telescope file_browser<cr>", {})
+vim.api.nvim_set_keymap("n", "<leader>f", "<Cmd>Telescope find_file<cr>", {})
 vim.o.switchbuf='usetab'
 
 vim.g.startify_bookmarks = {{c='conf/editor'}}

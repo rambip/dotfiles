@@ -210,7 +210,7 @@ key_combos = submap $ M.fromList $ [
                 ,xK_h ===> [ xK_m ---> reload_home_manager 
                           ]
                 ,xK_k ---> kill
-                ,xK_n ===> [ xK_x ---> spawn "nextcloud"
+                ,xK_n ===> [ xK_x ---> spawn "systemctl --user restart nextcloud-client.service"
                           ]
                 ,xK_r ===> [ xK_b ---> spawn "reboot"
                            ,xK_r ---> spawn "rofi -show run"

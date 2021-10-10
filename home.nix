@@ -13,9 +13,11 @@ in rec {
 
   home.sessionVariables = {
 	EDITOR = "nvim";
+        START_DISPLAY_COMMAND = "${pkgs.sway}";
         #VISUAL = "gvim";
         BROWSER = "brave";
         MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+        TERM = "xterm-256color";
   };
   
   programs.home-manager.enable = true;
@@ -32,22 +34,26 @@ in rec {
       yarn
       wabt
       any-nix-shell
-      opam
+      ocaml
       (import ./tools/idris2-pkgs).default # idris2 compiler
       (import ./tools/idris2-pkgs).packages.x86_64-linux.lsp # idris2 lsp
       gcc
       bash
       pkgsUnstable.neovim
       pkgsUnstable.ttyper
-      ocaml
+      cargo
     ];
     desktop_tools = [
-      obs-studio
       brave
       pkgsUnstable.vieb
       kitty
       bat
       random_wallpaper
+      sway
+      wofi
+      i3status-rust
+      ranger
+      baobab
     ];
 
   in dev_tools ++ desktop_tools;
@@ -87,6 +93,11 @@ in rec {
     enable = true;
   };
 
+  programs.obs-studio = {
+    enable = true;
+    plugins = [pkgs.obs-v4l2sink];
+  };
+
   xdg.userDirs = {
     download = "\$HOME/Downloads";
     desktop = "\$HOME";
@@ -94,7 +105,7 @@ in rec {
   };
 
   services.polybar = {
-	enable = true;
+	enable = false;
 	package = pkgs.polybar.override {pulseSupport = true;};
         config = ./desktop/polybar;
         extraConfig =
@@ -126,23 +137,31 @@ in rec {
           '';
   };
 
-  services.picom = {enable=true;};
   services.dunst = {enable=true;}; # CONFIG ?
   services.udiskie = {enable=true; tray="always";};
   services.blueman-applet.enable = true;
   services.network-manager-applet.enable = true;
-  services.nextcloud-client.enable = true;
+  services.nextcloud-client= {
+    enable = true;
+  };
 
-  xsession.enable = true;
+  #xsession.enable = true;
 
   #xsession.initExtra = builtins.readFile ./desktop/xinitrc;
 
-  xsession.windowManager.xmonad = {
-    enable = true;
-    config = ./desktop/xmonad.hs;
-    enableContribAndExtras = true;
-    extraPackages = hp: [hp.dbus hp.monad-logger];
-  };
+  # xsession.windowManager.xmonad = {
+  #   enable = false;
+  #   config = ./desktop/xmonad.hs;
+  #   enableContribAndExtras = true;
+  #   extraPackages = hp: [hp.dbus hp.monad-logger];
+  # };
+
+  # wayland.windowManager.sway = {
+  #   enable = true;
+  #   systemdIntegration = true;
+  #   config = {};
+  #   extraConfig = builtins.readFile ./desktop/sway;
+  # };
 
   xdg.configFile = {
     "macchina/macchina.toml"   .source = pkgs.writeText "config"
@@ -158,6 +177,9 @@ in rec {
     "picom/picom.conf"         .source = ./desktop/picom.conf;
     "nvim/init.lua"            .source = ./editor/nvim.lua;
     "dunst/dunstrc"            .source = ./desktop/dunstrc;
+    "sway/config"              .source = ./desktop/sway;
+    "ranger/rc.conf"           .source = ./other/rc.conf;
+    # "discord/settings.json"     .text =  '' "SKIP_HOST_UPDATE": true '';
   };
 
   home.file = { 

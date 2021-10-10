@@ -3,7 +3,7 @@
 let runtime = ''
   #! /bin/sh
   export PYTHONPATH=${pkgs.python38Packages.Wand}/lib/python3.8/site-packages/
-  export PATH=${pkgs.feh}/bin:${pkgs.xorg.xrdb}/bin
+  export PATH=${pkgs.sway}/bin:${pkgs.xorg.xrdb}/bin
   ${pkgs.python38}/bin/python $out/raw/random_wallpaper.py
   '';
 
