@@ -104,40 +104,40 @@ in rec {
     pictures = "\$HOME/Pictures";
   };
 
-  services.polybar = {
-	enable = false;
-	package = pkgs.polybar.override {pulseSupport = true;};
-        config = ./desktop/polybar;
-        extraConfig =
-        ''
+  #services.polybar = {
+	#enable = false;
+	#package = pkgs.polybar.override {pulseSupport = true;};
+  #      config = ./desktop/polybar;
+  #      extraConfig =
+  #      ''
 
-        ;https://github.com/polybar/polybar/wiki/User-contributed-modules
-        [module/xmonad]
-        type = custom/script
-        exec = ${pkgs.xmonad-log}/bin/xmonad-log
-        tail = true
+  #      ;https://github.com/polybar/polybar/wiki/User-contributed-modules
+  #      [module/xmonad]
+  #      type = custom/script
+  #      exec = ${pkgs.xmonad-log}/bin/xmonad-log
+  #      tail = true
 
-        [module/wallpaper]
-        type = custom/ipc
+  #      [module/wallpaper]
+  #      type = custom/ipc
 
-        hook-0 = echo 🌄 
-        hook-1 = ${pkgs.coreutils}/bin/cat /tmp/current_wallpaper
-        initial = 1
+  #      hook-0 = echo 🌄 
+  #      hook-1 = ${pkgs.coreutils}/bin/cat /tmp/current_wallpaper
+  #      initial = 1
 
-        click-left = ${pkgs.polybar}/bin/polybar-msg -p %pid% hook wallpaper 1
-        click-right = ${pkgs.polybar}/bin/polybar-msg -p %pid% hook wallpaper 2
-        '';
-	# script to start polybar.
-	# Call nix-shell to pass the right applications
-        #/nix/store/l7vznaq67365yvd9j2ahzvp3fjp2knsi-system-path/bin/nix-shell
-        script =
-          ''
-          ${random_wallpaper}/bin/random_wallpaper 
-          polybar top &
-          '';
-  };
+  #      click-left = ${pkgs.polybar}/bin/polybar-msg -p %pid% hook wallpaper 1
+  #      click-right = ${pkgs.polybar}/bin/polybar-msg -p %pid% hook wallpaper 2
+  #      '';
+	## script to start polybar.
+	## Call nix-shell to pass the right applications
+  #      #/nix/store/l7vznaq67365yvd9j2ahzvp3fjp2knsi-system-path/bin/nix-shell
+  #      script =
+  #        ''
+  #        ${random_wallpaper}/bin/random_wallpaper 
+  #        polybar top &
+  #        '';
+  #};
 
-  services.dunst = {enable=true;}; # CONFIG ?
+  programs.mako = {enable=true;}; # CONFIG ?
   services.udiskie = {enable=true; tray="always";};
   services.blueman-applet.enable = true;
   services.network-manager-applet.enable = true;
@@ -163,6 +163,10 @@ in rec {
   #   extraConfig = builtins.readFile ./desktop/sway;
   # };
 
+  # TODO: - solve tray problem (nextcloud, udiskie, blueman not there)
+  #       - tty and virtual consoles (man logind.conf)
+  #       - 
+
   xdg.configFile = {
     "macchina/macchina.toml"   .source = pkgs.writeText "config"
     ''
@@ -173,10 +177,8 @@ in rec {
 
     "kitty/kitty.conf"         .source = ./desktop/kitty.conf;
     "i3status-rust/config.toml".source = ./desktop/i3status-rust;
-    "i3/config"                .source = ./desktop/i3;
-    "picom/picom.conf"         .source = ./desktop/picom.conf;
+    # "i3/config"                .source = ./desktop/i3;
     "nvim/init.lua"            .source = ./editor/nvim.lua;
-    "dunst/dunstrc"            .source = ./desktop/dunstrc;
     "sway/config"              .source = ./desktop/sway;
     "ranger/rc.conf"           .source = ./other/rc.conf;
     # "discord/settings.json"     .text =  '' "SKIP_HOST_UPDATE": true '';

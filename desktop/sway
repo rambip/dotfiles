@@ -24,6 +24,7 @@ input "type:touchpad" {
 #|___/\__\__,_|_|   \__|\__,_| .__/ 
                             #|_|    
 exec_always random_wallpaper
+exec_always mako
 
 
 #                    _ _       
@@ -114,6 +115,7 @@ mode "launch" {
     bindsym b exec brave; mode "default"
     bindsym o exec obs; mode "default"
     bindsym d exec discor; mode "default"
+    bindsym e exec evince; mode "default"
 
     bindsym r exec wofi --show run; mode "default"
     #bindsym c exec $open_config 
