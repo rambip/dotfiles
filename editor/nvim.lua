@@ -48,7 +48,7 @@ vim.cmd 'colorscheme gruvbox-flat'
 vim.api.nvim_set_keymap("n", "<leader>f", "<Cmd>Telescope find_file<cr>", {})
 vim.o.switchbuf='usetab'
 
-vim.g.startify_bookmarks = {{c='conf/editor'}}
+vim.g.startify_bookmarks = {{c='conf'}}
 
 require('compe').setup({
     enabled = true,

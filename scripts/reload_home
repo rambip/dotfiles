@@ -1,0 +1,8 @@
+#!/usr/bin/env nix-shell
+#! nix-shell -i sh -p libnotify home-manager
+
+notify-send "home-manager: started reloading"
+
+home-manager switch && result="home-manager: done" || result="home-manager: failed"
+
+notify-send "$result"

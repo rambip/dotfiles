@@ -9,6 +9,7 @@
 input "type:keyboard" {
     xkb_layout fr
     xkb_variant latin9
+    xkb_numlock enable
 }
 
 input "type:touchpad" {
@@ -24,8 +25,11 @@ input "type:touchpad" {
 #|___/\__\__,_|_|   \__|\__,_| .__/ 
                             #|_|    
 exec_always random_wallpaper
-exec_always mako
-
+exec {
+    # TODO: systemd
+    nextcloud --background
+    udiskie
+}
 
 #                    _ _       
 # _ __ ___   ___  __| (_) __ _ 
@@ -64,9 +68,8 @@ bindsym $mod_alt+space focus next
 bindsym $mod_win+f fullscreen toggle
 
 # cycle workspace with tab (xev to get keycode)
-bindcode $mod_alt+tab workspace next
+bindsym $mod_alt+tab workspace next
 
-# TODO: app launcher
 
 
                     # _                                  
@@ -80,11 +83,11 @@ set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
-set $ws6 "hdmi"
+set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "scratch"
+set $ws10 "hdmi"
 
 # hdmi workspace
 workspace "hdmi" output HDMI-1
@@ -98,8 +101,13 @@ bindsym $mod_alt+Shift+minus workspace 6
 bindsym $mod_alt+Shift+egrave workspace 7
 bindsym $mod_alt+Shift+underscore workspace 8
 bindsym $mod_alt+Shift+ccedilla workspace 9
-bindsym $mod_alt+Shift+agrave workspace scratch
+bindsym $mod_alt+Shift+agrave workspace hdmi
 
+
+assign [class="Vieb"] 3
+assign [class="Brave"] 5
+assign [class="discord"] 9
+assign [class="vlc"] hdmi
 
 
  # _                        _     
@@ -114,11 +122,15 @@ mode "launch" {
     bindsym v exec vieb; mode "default"
     bindsym b exec brave; mode "default"
     bindsym o exec obs; mode "default"
-    bindsym d exec discor; mode "default"
+    bindsym d exec discord; mode "default"
     bindsym e exec evince; mode "default"
+    bindsym h exec reload_home; mode "default"
+
+    bindsym s scratchpad show; mode "default"
 
     bindsym r exec wofi --show run; mode "default"
-    #bindsym c exec $open_config 
+
+    #bindsym t exec "kitty tmux"; move scratchpad; scratchpad show; mode default;
     bindsym escape mode "default"
     bindsym return mode "default"
 }
@@ -144,7 +156,9 @@ mode "tools" {
     bindsym 7 move workspace 7
     bindsym 8 move workspace 8
     bindsym 9 move workspace 9
-    bindsym 0 move workspace scratch
+    bindsym 0 move workspace hdmi
+
+    bindsym s move scratchpad
 
     bindsym shift+k exit
     bindsym o exec poweroff
@@ -183,3 +197,6 @@ bar 0 {
 default_border pixel
 gaps inner 8
 smart_borders on
+
+#theming:
+#https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland

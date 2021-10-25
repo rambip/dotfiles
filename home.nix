@@ -2,7 +2,7 @@
 let 
   pkgsUnstable = import <nixpkgs-unstable> {};
   config_dir = "/home/rambi/conf";
-  random_wallpaper = (import ./desktop/random_wallpaper.nix {inherit pkgs;}) ;
+  custom_scripts = (import ./scripts/scripts.nix {inherit pkgs;}) ;
 in rec {
   home.username = "rambi";
   home.homeDirectory = "/home/rambi";
@@ -13,11 +13,10 @@ in rec {
 
   home.sessionVariables = {
 	EDITOR = "nvim";
-        START_DISPLAY_COMMAND = "${pkgs.sway}";
         #VISUAL = "gvim";
         BROWSER = "brave";
         MANPAGER = "sh -c 'col -bx | bat -l man -p'";
-        TERM = "xterm-256color";
+        #TERM = "xterm-256color";
   };
   
   programs.home-manager.enable = true;
@@ -25,6 +24,8 @@ in rec {
 
   home.packages = with pkgs; let
     dev_tools = [
+      toilet
+      figlet
       python3
       tree
       tldr
@@ -44,16 +45,16 @@ in rec {
       cargo
     ];
     desktop_tools = [
-      brave
       pkgsUnstable.vieb
       kitty
       bat
-      random_wallpaper
-      sway
+      custom_scripts
+      gnome.seahorse
+      gnome.nautilus
       wofi
       i3status-rust
       ranger
-      baobab
+      udiskie
     ];
 
   in dev_tools ++ desktop_tools;
@@ -89,13 +90,42 @@ in rec {
     extraConfig = builtins.readFile ./editor/tmux.conf;
   };
 
-  programs.rofi = {
-    enable = true;
-  };
-
   programs.obs-studio = {
     enable = true;
     plugins = [pkgs.obs-v4l2sink];
+  };
+
+  programs.mako = {
+    enable = true;
+    defaultTimeout = 3000;
+  };
+
+  gtk = {
+    enable = true;
+    theme.package = pkgs.arc-theme;
+    theme.name = "Arc";
+  };
+
+  wayland.windowManager.sway = 
+  let tmux_init = pkgs.writeShellScriptBin "tmux_init" ''
+  ${pkgs.sway}/bin/swaymsg "move scratchpad"
+  ${pkgs.tmux}/bin/tmux 
+  ''; in {
+    # TODO: https://nixos.wiki/wiki/Sway
+    package = pkgsUnstable.sway;
+    enable = true;
+    wrapperFeatures.gtk = true;
+    config= {
+      startup = [
+        {command="${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";}
+        {command="${pkgs.kitty}/bin/kitty ${tmux_init}/bin/tmux_init";}
+      ];
+      focus.forceWrapping = true;
+      keybindings = {};
+      bars = [];
+
+    };
+    extraConfig = builtins.readFile ./desktop/sway;
   };
 
   xdg.userDirs = {
@@ -137,17 +167,13 @@ in rec {
   #        '';
   #};
 
-  programs.mako = {enable=true;}; # CONFIG ?
-  services.udiskie = {enable=true; tray="always";};
-  services.blueman-applet.enable = true;
-  services.network-manager-applet.enable = true;
-  services.nextcloud-client= {
-    enable = true;
-  };
-
-  #xsession.enable = true;
-
-  #xsession.initExtra = builtins.readFile ./desktop/xinitrc;
+  #services.udiskie = {enable=true;};
+  #services.blueman-applet.enable = true;
+  #services.network-manager-applet.enable = true;
+   # services.nextcloud-client= {
+   #   enable = true;
+   #   startInBackground = true;
+   # };
 
   # xsession.windowManager.xmonad = {
   #   enable = false;
@@ -155,17 +181,6 @@ in rec {
   #   enableContribAndExtras = true;
   #   extraPackages = hp: [hp.dbus hp.monad-logger];
   # };
-
-  # wayland.windowManager.sway = {
-  #   enable = true;
-  #   systemdIntegration = true;
-  #   config = {};
-  #   extraConfig = builtins.readFile ./desktop/sway;
-  # };
-
-  # TODO: - solve tray problem (nextcloud, udiskie, blueman not there)
-  #       - tty and virtual consoles (man logind.conf)
-  #       - 
 
   xdg.configFile = {
     "macchina/macchina.toml"   .source = pkgs.writeText "config"
@@ -179,7 +194,7 @@ in rec {
     "i3status-rust/config.toml".source = ./desktop/i3status-rust;
     # "i3/config"                .source = ./desktop/i3;
     "nvim/init.lua"            .source = ./editor/nvim.lua;
-    "sway/config"              .source = ./desktop/sway;
+    #"sway/config"              .source = ./desktop/sway;
     "ranger/rc.conf"           .source = ./other/rc.conf;
     # "discord/settings.json"     .text =  '' "SKIP_HOST_UPDATE": true '';
   };
