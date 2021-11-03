@@ -168,13 +168,13 @@ in rec {
   #        '';
   #};
 
-  #services.udiskie = {enable=true;};
+  services.udiskie = {enable=true;};
   #services.blueman-applet.enable = true;
   #services.network-manager-applet.enable = true;
-   # services.nextcloud-client= {
-   #   enable = true;
-   #   startInBackground = true;
-   # };
+   services.nextcloud-client= {
+     enable = true;
+     #startInBackground = true;
+   };
 
   # xsession.windowManager.xmonad = {
   #   enable = false;

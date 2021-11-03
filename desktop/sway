@@ -26,9 +26,7 @@ input "type:touchpad" {
                             #|_|    
 exec_always random_wallpaper
 exec {
-    # TODO: systemd
-    nextcloud --background
-    udiskie
+    mako
 }
 
 #                    _ _       
@@ -37,9 +35,11 @@ exec {
 #| | | | | |  __/ (_| | | (_| |
 #|_| |_| |_|\___|\__,_|_|\__,_|
                               
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute        exec pactl set-sink-volume @DEFAULT_SINK@ toggle
+bindsym {
+    XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    XF86AudioMute        exec pactl set-sink-volume @DEFAULT_SINK@ toggle
+}
  
 
 # _     _           _ _                 
@@ -92,16 +92,18 @@ set $ws10 "hdmi"
 # hdmi workspace
 workspace "hdmi" output HDMI-1
 
-bindsym $mod_alt+Shift+ampersand workspace 1
-bindsym $mod_alt+Shift+eacute workspace 2
-bindsym $mod_alt+Shift+quotedbl workspace 3
-bindsym $mod_alt+Shift+apostrophe workspace 4
-bindsym $mod_alt+Shift+parenleft workspace 5
-bindsym $mod_alt+Shift+minus workspace 6	
-bindsym $mod_alt+Shift+egrave workspace 7
-bindsym $mod_alt+Shift+underscore workspace 8
-bindsym $mod_alt+Shift+ccedilla workspace 9
-bindsym $mod_alt+Shift+agrave workspace hdmi
+bindsym {
+    $mod_alt+Shift+ampersand workspace 1
+    $mod_alt+Shift+eacute workspace 2
+    $mod_alt+Shift+quotedbl workspace 3
+    $mod_alt+Shift+apostrophe workspace 4
+    $mod_alt+Shift+parenleft workspace 5
+    $mod_alt+Shift+minus workspace 6	
+    $mod_alt+Shift+egrave workspace 7
+    $mod_alt+Shift+underscore workspace 8
+    $mod_alt+Shift+ccedilla workspace 9
+    $mod_alt+Shift+agrave workspace hdmi
+}
 
 
 assign [class="Vieb"] 3
@@ -119,16 +121,15 @@ assign [class="vlc"] hdmi
 
 bindsym $mod_alt+escape mode "launch"
 mode "launch" {
-    bindsym v exec vieb; mode "default"
-    bindsym b exec brave; mode "default"
-    bindsym o exec obs; mode "default"
-    bindsym d exec discord; mode "default"
-    bindsym e exec evince; mode "default"
-    bindsym h exec reload_home; mode "default"
-
-    bindsym s scratchpad show; mode "default"
-
-    bindsym r exec wofi --show run; mode "default"
+    bindsym {
+        v exec vieb; mode default
+        b exec brave; mode default
+        o exec obs; mode default
+        d exec discord; mode default
+        e exec evince; mode default
+        h exec reload_home; mode default
+        s scratchpad show; mode default
+        r exec wofi --show run ; mode default } 
 
     #bindsym t exec "kitty tmux"; move scratchpad; scratchpad show; mode default;
     bindsym escape mode "default"
@@ -147,27 +148,25 @@ mode "tools" {
     bindsym w exec random_wallpaper
     # TODO: - move to scratchpad
     #       - move and go to this workspace
-    bindsym 1 move workspace 1
-    bindsym 2 move workspace 2
-    bindsym 3 move workspace 3
-    bindsym 4 move workspace 4
-    bindsym 5 move workspace 5
-    bindsym 6 move workspace 6
-    bindsym 7 move workspace 7
-    bindsym 8 move workspace 8
-    bindsym 9 move workspace 9
-    bindsym 0 move workspace hdmi
-
-    bindsym s move scratchpad
-
-    bindsym shift+k exit
-    bindsym o exec poweroff
-    bindsym r exec reboot
-    
-    bindsym c reload
-    bindsym plus resize grow width 10 px
-    bindsym minus resize shrink width 10 px
-    bindsym f floating toogle
+    bindsym {
+        1 move workspace 1
+        2 move workspace 2
+        3 move workspace 3
+        4 move workspace 4
+        5 move workspace 5
+        6 move workspace 6
+        7 move workspace 7
+        8 move workspace 8
+        9 move workspace 9
+        0 move workspace hdmi
+        s move scratchpad
+        shift+k exit
+        o exec poweroff
+        r exec reboot
+        c reload
+        plus resize grow width 10 px
+        minus resize shrink width 10 px
+        f floating toogle }
 
     bindsym escape mode "default"
     bindsym return mode "default"
