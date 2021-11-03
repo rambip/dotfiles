@@ -13,6 +13,7 @@ in rec {
 
   home.sessionVariables = {
 	EDITOR = "nvim";
+        XDG_SESSION_TYPE="wayland";
         #VISUAL = "gvim";
         BROWSER = "brave";
         MANPAGER = "sh -c 'col -bx | bat -l man -p'";
@@ -112,7 +113,7 @@ in rec {
   ${pkgs.tmux}/bin/tmux 
   ''; in {
     # TODO: https://nixos.wiki/wiki/Sway
-    package = pkgsUnstable.sway;
+    #package = pkgsUnstable.sway;
     enable = true;
     wrapperFeatures.gtk = true;
     config= {
