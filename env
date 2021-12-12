@@ -1,6 +1,6 @@
 MYSELF=$(realpath $_)
 
-TERM=
+export TERM=xterm-256color
 EDITOR="vim -u $WORK_ENV_DIR"
 PS1="(@) \e[0;34m\W\e[m $ "
 vimrc="
@@ -47,7 +47,9 @@ help_bash(){
 }
 
 sandbox(){
-    cd $(mktemp -d)
+    pushd $(mktemp -d)
+    read -p "filename: "
+    test -n "$REPLY" && v $REPLY
 }
 
 edit_env(){
@@ -56,7 +58,8 @@ edit_env(){
 }
 
 alias v="vim -u $WORK_ENV_DIR/.vimrc"
-alias S=sandbox
+alias P=sandbox
+alias D=popd
 alias EE=edit_env
 alias HB=help_bash
 
