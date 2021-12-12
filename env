@@ -1,0 +1,63 @@
+MYSELF=$(realpath $_)
+
+TERM=xterm-256color
+PS1="(@) \e[0;34m\W\e[m $ "
+vimrc="
+set relativenumber
+set nu rnu
+set smartindent
+set expandtab
+set shiftwidth=4
+set splitright
+set ignorecase
+set nocompatible
+set ruler
+set mouse=a
+set backspace=indent,eol,start
+filetype on
+filetype plugin on
+filetype indent on
+syntax on
+
+
+nmap <tab> gt
+map Z :xa<cr>
+map Y y$
+nmap <silent> <c-l> :noh<CR>
+"
+
+install_env(){
+    WORK_ENV_DIR=$TMPDIR/work_environment_config
+    mkdir $WORK_ENV_DIR
+    cd $WORK_ENV_DIR
+    echo "$vimrc" > .vimrc
+    echo "# temporary configuration here:" > .tempconf.env
+    echo $MYSELF > .work.env
+    VIM=$WORK_ENV_DIR
+    cd $OLDPWD
+}
+
+test -z "$WORK_ENV_DIR" && install_env
+
+
+
+help_bash(){
+    help $1 | less
+}
+
+sandbox(){
+    cd $(mktemp -d)
+}
+
+edit_env(){
+    vim $WORK_ENV_DIR/.tempconf.env
+    . $WORK_ENV_DIR/.tempconf.env
+}
+
+alias v="vim -u $WORK_ENV_DIR/.vimrc"
+alias S=sandbox
+alias EE=edit_env
+alias HB=help_bash
+
+
+. $WORK_ENV_DIR/.tempconf.env
