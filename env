@@ -1,6 +1,7 @@
 MYSELF=$(realpath $_)
 
-TERM=xterm-256color
+TERM=
+EDITOR="vim -u $WORK_ENV_DIR"
 PS1="(@) \e[0;34m\W\e[m $ "
 vimrc="
 set relativenumber
