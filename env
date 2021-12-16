@@ -1,7 +1,6 @@
 MYSELF=$(realpath $_)
 
 export TERM=xterm
-EDITOR="vim -u $WORK_ENV_DIR"
 PS1="(@) \e[0;34m\W\e[m $ "
 vimrc="
 set relativenumber
@@ -31,6 +30,7 @@ install_env(){
     WORK_ENV_DIR=$TMPDIR/work_environment_config
     mkdir $WORK_ENV_DIR
     cd $WORK_ENV_DIR
+    vim="vim -u $WORK_ENV_DIR/.vimrc"
     echo "$vimrc" > .vimrc
     echo "# temporary configuration here:" > .tempconf.env
     echo $MYSELF > .work.env
@@ -49,7 +49,8 @@ help_bash(){
 sandbox(){
     pushd $(mktemp -d)
     read -p "filename: "
-    test -n "$REPLY" && vim -u $WORK_ENV_DIR/.vimrc $REPLY
+    test -n "$REPLY" && $vim $REPLY
+    MAIN_FILE=$REPLY
 }
 
 edit_env(){
@@ -58,11 +59,11 @@ edit_env(){
 }
 
 modify_source(){
-    vim -u $WORK_ENV_DIR/.vimrc "+set filetype=sh" $1
+    $vim "+set filetype=sh" $1
     . $1
 }
 
-alias v="vim -u $WORK_ENV_DIR/.vimrc"
+alias v=$vim
 alias v.="modify_source"
 alias P=sandbox
 alias D=popd
