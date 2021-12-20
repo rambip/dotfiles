@@ -1,19 +1,44 @@
-MYSELF=$(realpath $_)
-
 export TERM=xterm
-PS1="(@) \e[0;34m\W\e[m $ "
-vimrc="
+export EDITOR=vim
+
+green='\001\e[32m\002'
+red='\001\e[33m\002'
+blue='\001\e[34m\002'
+purple='\001\e[35m\002'
+cyan='\001\e[36m\002'
+white='\001\e[0m\002'
+
+PS1="$blue \W $white \$ "
+
+
+test -z "$ENVDIR" && ENVDIR=$(mktemp -d)
+
+# find file named '.save_here' on the filesystem
+SAVE_DIR=$(find ~/ -maxdepth 3 -type f -name .save_here | xargs cat)
+
+create_file(){
+    cat - > "$ENVDIR/$1"
+}
+
+
+# TODO: same mappings in vim and vimrc
+create_file vimrc << EOF
 set relativenumber
 set nu rnu
+
+" indent settings:
 set smartindent
 set expandtab
 set shiftwidth=4
+set softtabstop=4
+set backspace=indent,eol,start
+
 set splitright
 set ignorecase
 set nocompatible
 set ruler
-set mouse=a
-set backspace=indent,eol,start
+set mouse=$VIM_MOUSE
+set pastetoggle=<F10>
 filetype on
 filetype plugin on
 filetype indent on
@@ -22,24 +47,51 @@ syntax on
 
 nmap <tab> gt
 map Z :xa<cr>
+map Q :q<cr>
 map Y y$
 nmap <silent> <c-l> :noh<CR>
-"
 
-install_env(){
-    WORK_ENV_DIR=$TMPDIR/work_environment_config
-    mkdir $WORK_ENV_DIR
-    cd $WORK_ENV_DIR
-    vim="vim -u $WORK_ENV_DIR/.vimrc"
-    echo "$vimrc" > .vimrc
-    echo "# temporary configuration here:" > .tempconf.env
-    echo $MYSELF > .work.env
-    VIM=$WORK_ENV_DIR
-    cd $OLDPWD
+imap kj <Esc>
+imap jk <Esc>l
+
+nmap <silent><Space><Space> :set nu! rnu! paste!<cr>
+
+vmap <Space>pd yOprintf("<c-r>" = %d", <c-r>");<Esc>gv
+EOF
+
+vim="vim -u $ENVDIR/vimrc"
+
+
+create_file inputrc << EOF
+set editing-mode vi
+set show-mode-in-prompt on
+set vi-ins-mode-string "${green}I ${white}|"
+set vi-cmd-mode-string "${purple}N ${white}|"
+
+set keymap vi-insert  
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-l": clear-screen
+"\C-w": backward-kill-word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+"kj": vi-movement-mode  
+
+set keymap vi-command
+"s": 'cc=\$(\C-y)\C-a'
+EOF
+
+INPUTRC=$ENVDIR/inputrc
+
+
+echo "# temporary configuration here:" | create_file temp_env
+
+
+error(){
+    echo $1
+    exit 1
 }
-
-test -z "$WORK_ENV_DIR" && install_env
-
 
 
 help_bash(){
@@ -53,9 +105,17 @@ sandbox(){
     MAIN_FILE=$REPLY
 }
 
+save(){
+    test -n "$SAVE_DIR" || error "no backup directory set"
+    read -p "Enter name of project: " project
+    dest="$SAVE_DIR/$project"
+    mkdir $dest
+    find ./ -maxdepth 1 -type f -exec cp {} "$dest" \;
+}
+
 edit_env(){
-    vim $WORK_ENV_DIR/.tempconf.env
-    . $WORK_ENV_DIR/.tempconf.env
+    $vim $ENVDIR/temp_env
+    . $ENVDIR/temp_env
 }
 
 modify_source(){
@@ -75,8 +135,4 @@ alias CR=reset
 alias ll="ls -lo --color=auto"
 alias la="ls -loA --color=auto"
 
-set -o vi
-bind '"\C-l":" | less"'
-
-
-. $WORK_ENV_DIR/.tempconf.env
+alias grep="grep --color=auto"
