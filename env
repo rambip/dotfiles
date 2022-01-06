@@ -1,5 +1,10 @@
+# TODO:
+# awk
+# snippets vim
+# vim-surround ?
+
+
 export TERM=xterm
-export EDITOR=vim
 
 green='\001\e[32m\002'
 red='\001\e[33m\002'
@@ -60,6 +65,7 @@ vmap <Space>pd yOprintf("<c-r>" = %d", <c-r>");<Esc>gv
 EOF
 
 vim="vim -u $ENVDIR/vimrc"
+EDITOR=$vim
 
 
 create_file inputrc << EOF
@@ -75,6 +81,9 @@ set keymap vi-insert
 "\C-w": backward-kill-word
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
+"\C-p": previous-history
+"\C-n": next-history
+"\C-x\C-r" re-read-init-file
 
 "kj": vi-movement-mode  
 
@@ -83,6 +92,7 @@ set keymap vi-command
 EOF
 
 INPUTRC=$ENVDIR/inputrc
+# bind 're-read-init-file'
 
 
 echo "# temporary configuration here:" | create_file temp_env
