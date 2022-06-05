@@ -1,6 +1,6 @@
 {config, pkgs, ...}:
 let 
-  pkgsUnstable = import <nixpkgs-unstable> {};
+  #pkgsUnstable = import <nixpkgs-unstable> {};
   config_dir = "/home/rambi/conf";
   custom_scripts = (import ./scripts/scripts.nix {inherit pkgs;}) ;
 in rec {
@@ -12,7 +12,7 @@ in rec {
   home.sessionPath = [ "\$HOME\.cargo/bin" ];
 
   home.sessionVariables = {
-	EDITOR = "nvim";
+	EDITOR = "vim";
         XDG_SESSION_TYPE="wayland";
         #VISUAL = "gvim";
         BROWSER = "brave";
@@ -20,7 +20,7 @@ in rec {
         #TERM = "xterm-256color";
   };
   
-  programs.home-manager.enable = true;
+  #programs.home-manager.enable = true;
 
 
   home.packages = with pkgs; let
@@ -37,16 +37,17 @@ in rec {
       wabt
       any-nix-shell
       ocaml
-      (import ./tools/idris2-pkgs).default # idris2 compiler
-      (import ./tools/idris2-pkgs).packages.x86_64-linux.lsp # idris2 lsp
+      #(import ./tools/idris2-pkgs).default # idris2 compiler
+      #(import ./tools/idris2-pkgs).packages.x86_64-linux.lsp # idris2 lsp
       gcc
       bash
-      pkgsUnstable.neovim
-      pkgsUnstable.ttyper
+      #pkgsUnstable.neovim
+      #pkgsUnstable.ttyper
       cargo
     ];
     desktop_tools = [
-      pkgsUnstable.vieb
+    #neovim
+      #pkgsUnstable.vieb
       kitty
       bat
       custom_scripts
@@ -92,7 +93,7 @@ in rec {
   };
 
   programs.obs-studio = {
-    enable = true;
+    enable = false;
     plugins = [pkgs.obs-v4l2sink];
   };
 

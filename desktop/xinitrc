@@ -1,9 +1,0 @@
-random_wallpaper 
-
-# trays (wifi and mounts)
-udiskie --tray &
-nm-applet &
-blueman-applet &
-
-# polkit
-lxpolkit &

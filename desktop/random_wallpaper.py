@@ -21,6 +21,3 @@ with Image(filename=path) as img:
 
 # send report to xrdb, which store the x color informations (Xressources)
 call(['swaymsg', 'bar', '0', 'colors', 'background', f'#{r:02x}{g:02x}{b:02x}'])
-
-with open('/tmp/current_wallpaper', 'w') as f:
-    f.write(choice)

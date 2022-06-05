@@ -1,9 +1,0 @@
-#!/bin/sh
-TMPFILE=$(mktemp).vimedit
-
-cat > "$TMPFILE"
-
-gvim "$TMPFILE"
-
-cat "$TMPFILE"
-rm "$TMPFILE"
