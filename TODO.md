@@ -1,0 +1,4 @@
+- why is waybar enabled as a service ? Better to call it with exec ?
+- infinite zsh history
+- zsh autosuggestions as a package
+- completions for zsh (ex: podman)
