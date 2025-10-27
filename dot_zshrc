@@ -27,3 +27,5 @@ bindkey "^[[1;5D" backward-word     # Ctrl + Left
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+
