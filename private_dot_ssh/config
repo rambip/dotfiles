@@ -1,0 +1,28 @@
+Host teleblog
+    User aperonnet-23
+    Hostname perso-aperonnet-23.lxc.enst.fr
+
+Host guide-survie
+    User root
+    Hostname 2a09:6847:fa10:1410::177
+
+Host teletalks
+    User root
+    Hostname 137.194.13.158
+
+Host gcloud-tailscale
+    User root
+    Hostname 100.82.105.34
+    # https://login.tailscale.com/admin/machines
+
+Host piaf-community
+    User ubuntu
+    Hostname 151.80.60.34
+
+Host ssh.lightning.ai
+  IdentityFile ~/.ssh/lightning_rsa
+  IdentitiesOnly yes
+  ServerAliveInterval 15
+  ServerAliveCountMax 4
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
