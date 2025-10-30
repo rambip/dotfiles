@@ -13,8 +13,7 @@
     "on-click": "activate",
     "active-only": false,
     "all-outputs": false,
-    "persistent-only": true,
-    "format": "{name}",
+    // "format": "{name}",
     "format-icons": {
       "urgent": "",
       "active": "",
