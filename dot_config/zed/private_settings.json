@@ -7,6 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent": {
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "openrouter",
+      "model": "qwen/qwen3-235b-a22b-2507"
+    },
+    "model_parameters": []
+  },
   "terminal": {
     "shell": {
       "program": "zsh"
