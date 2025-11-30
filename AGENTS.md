@@ -4,7 +4,7 @@ This dotfiles repository manages a complete Hyprland-based desktop environment w
 
 ## Configuration Status
 - Actively refining Hyprland into a fully custom, optimized setup
-- Core configuration: `~/.config/hypr/hyprland.conf`
+- Core configuration: `dot_config/hypr/hyprland.conf`
 - Simplified modular design with 5 main config files
 - Each file focuses on a specific aspect of the configuration
 - Focus areas: window management, workspace organization, and application integration
@@ -57,7 +57,7 @@ All files include commented ML4W default configurations at the bottom for refere
 
 ## Hyprland
 - Core Wayland compositor with advanced window management
-- Modular configuration via `source = ~/.config/hypr/...`
+- Modular configuration via `source = dot_config/hypr/...`
 - Key config: `hyprland.conf`, `appearance.conf`, `input.conf`, `dispatch.conf`, `workspace.conf`, `utils.conf`
 - Reload: `hyprctl reload` or `SUPER + CTRL + R`
 - Main mod key: `$mainMod = SUPER`
@@ -93,10 +93,16 @@ All files include commented ML4W default configurations at the bottom for refere
 ## ML4W Scripts
 - Automation suite for desktop management
 - Key scripts: `executable_wallpaper.sh`, `executable_power.sh`, `executable_launcher.sh`, `executable_keybindings.sh`
-- Managed via `~/.config/ml4w/scripts/`
+- Managed via `dot_config/ml4w/scripts/`
 
 ## Build/Lint/Test Commands
 All build, lint, and test commands are available via `justfile`.
+
+After making any changes, run `just apply` to apply the configuration changes.
+
+# Configuration Files
+- Kitty: `dot_config/kitty/kitty.conf`
+- Tmux: `dot_config/tmux/tmux.conf`
 
 ## Code Style Guidelines
 - Use consistent 4-space indentation
@@ -109,3 +115,12 @@ All build, lint, and test commands are available via `justfile`.
 - Use relative paths or environment variables
 - Use inline comments for clarity
 - Maintain consistent indentation and spacing
+
+## Chozmoi Workflow
+- Configuration files are defined in this project (dotfiles)
+- Changes should be made to the dotfiles in this repository
+- Run `just apply` to update the user's home directory with changes
+- Avoid editing files directly in the home directory
+- If direct edits are made, run `chezmoi re-add /path/to/file` to sync changes back to the source state
+- In the repository, configuration directories like `.config` are prefixed with `dot_` (e.g., `.config` becomes `dot_config`)
+- When referencing files, use the repository path format with `dot_` prefix
